@@ -1,7 +1,5 @@
 import { languages } from './i18n'
 
-console.log(languages);
-
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -46,6 +44,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/i18n',
+    '@nuxtjs/apollo'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -68,5 +67,13 @@ export default {
       fallbackLocale: 'en',
       messages: languages
     }
-  }
+  },
+
+  apollo: {
+    clientConfigs: {
+      default: {
+        httpEndpoint: process.env.GRAPH_API,
+      },
+    },
+  },
 }

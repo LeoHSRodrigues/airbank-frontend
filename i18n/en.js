@@ -1,3 +1,5 @@
 export default {
-    teste: "hi"
+    home: {
+        title: 'hi'
+    }
 }
