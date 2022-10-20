@@ -7,23 +7,23 @@
         </div>
         <div class="flex flex-col lg:flex-row">
           <div class="w-full lg:w-6/12 header-input mr-4 mb-4">
-            <InputWithIcon :label="$t('home.filters.search')" showLabel :placeholder="$t('home.filters.searchLabel')">
+            <FormInputWithIcon :label="$t('home.filters.search')" showLabel :placeholder="$t('home.filters.searchLabel')">
               <template v-slot:icon>
                 <fa icon="magnifying-glass" />
               </template>
-            </InputWithIcon>
+            </FormInputWithIcon>
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4">
-            <Select :options="defaultSelect" :label="$t('home.filters.bank')" showLabel />
+            <FormSelect :options="defaultSelect" :label="$t('home.filters.bank')" showLabel />
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4">
-            <Select :options="defaultSelect" :label="$t('home.filters.account')" showLabel />
+            <FormSelect :options="defaultSelect" :label="$t('home.filters.account')" showLabel />
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4">
-            <Input :label="$t('home.filters.startingMonth')" showLabel />
+            <FormInputDate :label="$t('home.filters.startingMonth')" showLabel type="month"/>
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4">
-            <Input :label="$t('home.filters.endingMonth')" showLabel />
+            <FormInputDate :label="$t('home.filters.endingMonth')" showLabel type="month"/>
           </div>
         </div>
         <div class="overflow-x-auto relative">
@@ -117,12 +117,10 @@
 
 <script>
 import ChevronDown from "~/static/icons/chevron-down.svg?inline";
-import Input from "~/components/Form/Input.vue";
-import Select from "~/components/Form/Select.vue";
-import InputWithIcon from "../components/Form/InputWithIcon.vue";
+import 'vue2-datepicker/locale/pt-br';
 
 export default {
-  components: { ChevronDown, Input, Select, InputWithIcon },
+  components: { ChevronDown },
   data() {
     return {
       defaultSelect: [

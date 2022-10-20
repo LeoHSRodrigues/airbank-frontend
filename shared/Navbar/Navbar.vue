@@ -4,20 +4,18 @@
             <AirbankLogo />
         </div>
         <div class="flex navbar-language-select">
-            <Select :options="availableLocales" @change="handleLanguageChange" :selected="selectedLanguage" />
+            <FormSelect :options="availableLocales" @change="handleLanguageChange" :selected="selectedLanguage" />
         </div>
     </div>
 </template>
 
 <script>
 import AirbankLogo from "~/static/icons/airbank.svg?inline";
-import Select from "~/components/Form/Select.vue";
 
 export default {
     name: 'Navbar',
     components: {
-        AirbankLogo,
-        Select
+        AirbankLogo
     },
     data() {
         return {
