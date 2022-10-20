@@ -1,9 +1,9 @@
 <template>
-    <div class="page h-screen">
-        <div class="navbar fixed z-10 w-full">
+    <div class="page md:h-full">
+        <div class="navbar fixed z-10 w-full bg-white">
             <Navbar />
         </div>
-        <div class="content w-full h-full">
+        <div class="content h-full">
             <Nuxt />
         </div>
     </div>

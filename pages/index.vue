@@ -2,6 +2,30 @@
   <div class="home h-full w-full bg-gray-100">
     <div class="home-content flex grow h-full w-full justify-center py-4">
       <div class="card p-6 bg-white rounded-lg border border-gray-200 shadow-md">
+        <div>
+          <h3 class="font-bold text-lg mb-4">{{ $t('home.transactions') }}</h3>
+        </div>
+        <div class="flex flex-col lg:flex-row">
+          <div class="w-full lg:w-6/12 header-input mr-4 mb-4">
+            <InputWithIcon :label="$t('home.filters.search')" showLabel :placeholder="$t('home.filters.searchLabel')">
+              <template v-slot:icon>
+                <fa icon="magnifying-glass" />
+              </template>
+            </InputWithIcon>
+          </div>
+          <div class="w-full lg:w-2/12 header-input mr-4 mb-4">
+            <Select :options="defaultSelect" :label="$t('home.filters.bank')" showLabel />
+          </div>
+          <div class="w-full lg:w-2/12 header-input mr-4 mb-4">
+            <Select :options="defaultSelect" :label="$t('home.filters.account')" showLabel />
+          </div>
+          <div class="w-full lg:w-2/12 header-input mr-4 mb-4">
+            <Input :label="$t('home.filters.startingMonth')" showLabel />
+          </div>
+          <div class="w-full lg:w-2/12 header-input mr-4 mb-4">
+            <Input :label="$t('home.filters.endingMonth')" showLabel />
+          </div>
+        </div>
         <div class="overflow-x-auto relative">
           <table class="w-full">
             <thead class="text-xs table-head">
@@ -93,9 +117,34 @@
 
 <script>
 import ChevronDown from "~/static/icons/chevron-down.svg?inline";
+import Input from "~/components/Form/Input.vue";
+import Select from "~/components/Form/Select.vue";
+import InputWithIcon from "../components/Form/InputWithIcon.vue";
 
 export default {
-  components: { ChevronDown },
+  components: { ChevronDown, Input, Select, InputWithIcon },
+  data() {
+    return {
+      defaultSelect: [
+        {
+          name: 'United States',
+          value: 'US'
+        },
+        {
+          name: 'Canada',
+          value: 'CA'
+        },
+        {
+          name: 'France',
+          value: 'FR'
+        },
+        {
+          name: 'Germany',
+          value: 'DE'
+        },
+      ]
+    }
+  },
   methods: {
     handleInvoiceClick(event) {
       console.log(event)
@@ -106,7 +155,15 @@ export default {
 
 <style scoped>
 .card {
-  width: 70vw;
+  width: 85vw;
+}
+
+:deep() .header-input {
+  color: #c5c5c5;
+}
+
+:deep() .header-input input {
+  color: black;
 }
 
 .table-head {
@@ -134,6 +191,7 @@ export default {
   font-weight: 500;
   cursor: pointer;
 }
+
 .table-body tr .muted {
   color: #979797;
 }

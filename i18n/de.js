@@ -6,6 +6,15 @@ export default {
         deLanguage: 'Duitse taal'
     },
     home: {
+        transactions: 'Transacties',
+        filters: {
+            search: 'Zoeken',
+            searchLabel: 'Zoek op bank, rekening, referentie, categorie, datum, bedrag, valuta...',
+            bank: 'Bank',
+            account: 'Rekening',
+            startingMonth: 'Begin maand',
+            endingMonth: 'Einde maand',
+        },
         table: {
             firstColumn: 'Referentie',
             secondColumn: 'Categorie',

@@ -6,6 +6,15 @@ export default {
         deLanguage: 'Alemão'
     },
     home: {
+        transactions: 'Transações',
+        filters: {
+            search: 'Procurar',
+            searchLabel: 'Pesquise por banco, conta, referência, categoria, data, quantia, moeda...',
+            bank: 'Banco',
+            account: 'Conta',
+            startingMonth: 'Mês inicial',
+            endingMonth: 'Mês final',
+        },
         table: {
             firstColumn: 'Referência',
             secondColumn: 'Categoria',
