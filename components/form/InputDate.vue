@@ -1,8 +1,8 @@
 <template>
     <div class="flex flex-col">
         <label v-if="showLabel" class="block mb-1">{{ label }}</label>
-        <date-picker :lang="lang" class="datePicker flex w-full" v-model="date" v-bind="$attrs"
-            @change="handleChange" />
+        <date-picker :lang="lang" class="datePicker flex w-full" :value="defaultValue" v-bind="$attrs"
+            @change="handleChange" :disabled-date="disableDate" />
     </div>
 </template>
 
@@ -25,6 +25,14 @@ export default {
             type: String,
             default: false
         },
+        disableDate: {
+            type: Function,
+            default: () => false
+        },
+        defaultValue: {
+            type: Date,
+            default: null
+        },
     },
     mounted() {
         if (this.$i18n.locale === 'br') {
@@ -35,7 +43,6 @@ export default {
     },
     data() {
         return {
-            date: null,
             lang: 'en'
         }
     },

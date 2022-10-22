@@ -23,10 +23,12 @@
               :selected="selectedAccount" :options="getAccounts" :label="$t('home.filters.account')" showLabel />
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4 header-input-date">
-            <FormInputDate :label="$t('home.filters.startingMonth')" showLabel type="month" />
+            <FormInputDate @change="handleInitialDateChange"  :defaultValue="initialDate" :label="$t('home.filters.startingMonth')" showLabel
+              type="month" />
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4 header-input-date">
-            <FormInputDate :label="$t('home.filters.endingMonth')" showLabel type="month" />
+            <FormInputDate @change="handleEndingDateChange" :defaultValue="endingDate" :label="$t('home.filters.endingMonth')" showLabel
+              type="month" :disableDate="disablePastDates" />
           </div>
         </div>
         <div v-if="shouldLoadPage" class="table-div">
@@ -153,7 +155,22 @@ export default {
     },
     handleAccountChange(account) {
       this.selectedAccount = account
-    }
+    },
+    handleInitialDateChange(date) {
+      if (this.endingDate && date > this.endingDate) {
+        this.endingDate = null
+      }
+      this.initialDate = date
+    },
+    handleEndingDateChange(date) {
+      this.endingDate = date
+    },
+    disablePastDates(date) {
+      if (this.initialDate) {
+        return date < this.initialDate
+      }
+      return false
+    },
   },
   computed: {
     shouldLoadPage() {
