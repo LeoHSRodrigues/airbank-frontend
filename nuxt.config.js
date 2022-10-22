@@ -4,6 +4,10 @@ export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
+  server: {
+    port: process.env.PORT
+  },
+
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
@@ -67,7 +71,30 @@ export default {
     strategy: 'prefix_except_default',
     vueI18n: {
       fallbackLocale: 'en',
-      messages: languages
+      messages: languages,
+      dateTimeFormats: {
+        en: {
+          short: {
+            year: '2-digit',
+            month: '2-digit',
+            day: '2-digit',
+          },
+        },
+        br: {
+          short: {
+            year: '2-digit',
+            month: '2-digit',
+            day: '2-digit',
+          },
+        },
+        de: {
+          short: {
+            year: '2-digit',
+            month: '2-digit',
+            day: '2-digit',
+          },
+        }
+      },
     }
   },
 

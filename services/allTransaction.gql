@@ -1,0 +1,17 @@
+query allTransactions($search: String, $offset: Int, $limit: Int, $initialDate: Date, $endingDate: Date) {
+  allTransactions(search: $search, offset: $offset, limit: $limit, initialDate: $initialDate, endingDate: $endingDate) {
+    id
+    currency
+    date
+    amount
+    reference
+    category {
+      name
+      color
+    }
+    account {
+      name
+      bank
+    }
+  }
+}
