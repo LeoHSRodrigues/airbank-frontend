@@ -23,15 +23,15 @@
               :selected="selectedAccount" :options="getAccounts" :label="$t('home.filters.account')" showLabel />
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4 header-input-date">
-            <FormInputDate @change="handleInitialDateChange"  :defaultValue="initialDate" :label="$t('home.filters.startingMonth')" showLabel
-              type="month" />
+            <FormInputDate @change="handleInitialDateChange" :defaultValue="initialDate"
+              :label="$t('home.filters.startingMonth')" showLabel type="month" />
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4 header-input-date">
-            <FormInputDate @change="handleEndingDateChange" :defaultValue="endingDate" :label="$t('home.filters.endingMonth')" showLabel
-              type="month" :disableDate="disablePastDates" />
+            <FormInputDate @change="handleEndingDateChange" :defaultValue="endingDate"
+              :label="$t('home.filters.endingMonth')" showLabel type="month" :disableDate="disablePastDates" />
           </div>
         </div>
-        <div v-if="shouldLoadPage" class="table-div">
+        <div v-if="shouldLoadPage" class="table-div" @scroll="handleTableScroll">
           <table class="w-full table-auto">
             <thead class="text-xs table-head">
               <tr>
@@ -67,7 +67,7 @@
               </tr>
             </thead>
             <tbody class="table-body overflow-y-scroll">
-              <tr v-for="transaction in allTransactions" :key="transaction.id" @click="handleInvoiceClick(1)" class="">
+              <tr v-for="transaction in transactions" :key="transaction.id" @click="handleInvoiceClick(transaction)">
                 <td scope="row" class="py-4 px-6 text-left">
                   <span :class="transaction.reference ? '' : 'text-muted'">
                     {{ transaction.reference || $t('home.table.invalidReference')}}
@@ -99,6 +99,7 @@
 </template>
 
 <script>
+import { ref } from "vue";
 import ChevronDown from "~/static/icons/chevron-down.svg?inline";
 import allTransactions from '~/services/allTransaction'
 import allAccounts from '~/services/allAccounts'
@@ -122,6 +123,7 @@ export default {
   components: { ChevronDown },
   data() {
     return {
+      transactions: ref([]),
       search: '',
       debounceTime: 1000,
       selectedBank: this.$i18n.t('components.select.all'),
@@ -171,10 +173,15 @@ export default {
       }
       return false
     },
+    handleTableScroll({ target: { scrollTop, clientHeight, scrollHeight } }) {
+      if (scrollTop + clientHeight >= scrollHeight) {
+        this.transactionOffset += this.transactionLimit
+      }
+    }
   },
   computed: {
     shouldLoadPage() {
-      const canLoad = this.allAccounts && this.allAccounts.length && this.allTransactions && this.allTransactions.length
+      const canLoad = this.allAccounts && this.allAccounts.length && this.transactions && this.transactions.length
 
       return canLoad
     },
@@ -216,6 +223,14 @@ export default {
         }
       })
     },
+  },
+  watch: {
+    allTransactions: {
+      handler(newValue, oldValues) {
+        if (newValue && oldValues && newValue[0].id === oldValues[0].id) return
+        this.transactions.push(...newValue)
+      },
+    }
   },
 }
 </script>
