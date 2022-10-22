@@ -22,5 +22,10 @@ export default {
             fourthColumn: 'Quantia',
             invalidReference: 'Referência Inválida'
         }
+    },
+    components: {
+        select: {
+            all: 'Todos'
+        }
     }
 }

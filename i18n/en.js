@@ -22,5 +22,10 @@ export default {
             fourthColumn: 'Amount',
             invalidReference: 'No reference provided'
         }
+    },
+    components: {
+        select: {
+            all: 'All'
+        }
     }
 }

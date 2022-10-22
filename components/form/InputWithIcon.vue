@@ -8,7 +8,8 @@
             <div v-else class="flex absolute inset-y-0 right-0 items-center pr-3 pointer-events-none">
                 <slot name="icon"></slot>
             </div>
-            <input type="text" :class="leftIcon ? 'pl-10' : 'pr-10'" class="flex p-2 border w-full" v-bind="$attrs">
+            <input type="text" v-model="input" :class="leftIcon ? 'pl-10' : 'pr-10'" class="flex p-2 border w-full"
+                v-bind="$attrs">
         </div>
     </div>
 </template>
@@ -29,7 +30,33 @@ export default {
             type: Boolean,
             default: true
         },
+        debounceTime: {
+            type: Number,
+            default: true
+        },
+        value: {
+            type: String,
+            default: true
+        }
     },
+    data() {
+        return {
+            timeout: null,
+        }
+    },
+    computed: {
+        input: {
+            get() {
+                return this.value
+            },
+            set(val) {
+                if (this.timeout) clearTimeout(this.timeout)
+                this.timeout = setTimeout(() => {
+                    this.$emit('inputChange', val)
+                }, this.debounceTime)
+            }
+        }
+    }
 }
 </script>
 

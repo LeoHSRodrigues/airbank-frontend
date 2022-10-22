@@ -7,18 +7,20 @@
         </div>
         <div class="flex flex-col lg:flex-row">
           <div class="w-full lg:w-6/12 header-input mr-4 mb-4">
-            <FormInputWithIcon :label="$t('home.filters.search')" showLabel
-              :placeholder="$t('home.filters.searchLabel')">
+            <FormInputWithIcon :value="this.search" :debounceTime="debounceTime" @inputChange="handleSearch"
+              :label="$t('home.filters.search')" showLabel :placeholder="$t('home.filters.searchLabel')">
               <template v-slot:icon>
                 <fa icon="magnifying-glass" />
               </template>
             </FormInputWithIcon>
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4">
-            <FormSelect :options="defaultSelect" :label="$t('home.filters.bank')" showLabel />
+            <FormSelect @change="handleBankChange" :selected="selectedBank" :options="getBanks"
+              :label="$t('home.filters.bank')" showLabel />
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4">
-            <FormSelect :options="defaultSelect" :label="$t('home.filters.account')" showLabel />
+            <FormSelect :disabled="selectedBank === $t('components.select.all')" @change="handleAccountChange"
+              :selected="selectedAccount" :options="getAccounts" :label="$t('home.filters.account')" showLabel />
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4 header-input-date">
             <FormInputDate :label="$t('home.filters.startingMonth')" showLabel type="month" />
@@ -27,7 +29,7 @@
             <FormInputDate :label="$t('home.filters.endingMonth')" showLabel type="month" />
           </div>
         </div>
-        <div class="table-div">
+        <div v-if="shouldLoadPage" class="table-div">
           <table class="w-full table-auto">
             <thead class="text-xs table-head">
               <tr>
@@ -97,6 +99,7 @@
 <script>
 import ChevronDown from "~/static/icons/chevron-down.svg?inline";
 import allTransactions from '~/services/allTransaction'
+import allAccounts from '~/services/allAccounts'
 
 export default {
   name: 'index',
@@ -104,7 +107,13 @@ export default {
     allTransactions: {
       query: allTransactions,
       variables() {
-        return { search: this.search, offset: this.offset, limit: this.limit, initialDate: this.initialDate, endingDate: this.endingDate }
+        return { search: this.search, offset: this.transactionOffset, limit: this.transactionLimit, initialDate: this.initialDate, endingDate: this.endingDate, accountId: this.selectedAccount, bankName: this.rawBankName }
+      }
+    },
+    allAccounts: {
+      query: allAccounts,
+      variables() {
+        return { offset: this.accountOffset, limit: this.accountLimit }
       }
     }
   },
@@ -112,34 +121,84 @@ export default {
   data() {
     return {
       search: '',
-      offset: 0,
-      limit: 30,
+      debounceTime: 1000,
+      selectedBank: this.$i18n.t('components.select.all'),
+      rawBankName: null,
+      selectedAccount: null,
+      transactionOffset: 0,
+      transactionLimit: 30,
+      accountOffset: 0,
+      accountLimit: 30,
       initialDate: null,
       endingDate: null,
-      defaultSelect: [
-        {
-          name: 'United States',
-          value: 'US'
-        },
-        {
-          name: 'Canada',
-          value: 'CA'
-        },
-        {
-          name: 'France',
-          value: 'FR'
-        },
-        {
-          name: 'Germany',
-          value: 'DE'
-        },
-      ]
     }
   },
   methods: {
     handleInvoiceClick(event) {
       console.log()
+    },
+    handleSearch(search) {
+      this.search = search
+    },
+    handleBankChange(bank) {
+      if (bank === this.$i18n.t('components.select.all')) {
+        this.selectedAccount = null
+        this.selectedBank = this.$i18n.t('components.select.all')
+        this.rawBankName = null
+        return
+      }
+
+      this.selectedBank = bank
+      this.rawBankName = bank
+    },
+    handleAccountChange(account) {
+      this.selectedAccount = account
     }
+  },
+  computed: {
+    shouldLoadPage() {
+      const canLoad = this.allAccounts && this.allAccounts.length && this.allTransactions && this.allTransactions.length
+
+      return canLoad
+    },
+    getAccounts() {
+      if (!this.allAccounts) return []
+
+      const availableAccounts = []
+
+      availableAccounts.push({
+        id: '',
+        name: this.$i18n.t('components.select.all')
+      })
+
+      availableAccounts.push(...this.allAccounts.filter(account => account.bank === this.selectedBank))
+
+      return availableAccounts.map(account => {
+        return {
+          name: account.name,
+          value: account.id
+        }
+      })
+    },
+    getBanks() {
+      if (!this.allAccounts) return []
+
+      let banks = []
+
+      banks.push({
+        id: '',
+        bank: this.$i18n.t('components.select.all')
+      })
+
+      banks.push(...new Map(this.allAccounts.map(v => [v.bank, v])).values())
+
+      return banks.map(account => {
+        return {
+          name: account.bank,
+          value: account.bank
+        }
+      })
+    },
   },
 }
 </script>
@@ -148,6 +207,7 @@ export default {
 .home {
   background-color: #fafaf8;
 }
+
 .card {
   width: 85vw;
 }
@@ -157,6 +217,14 @@ export default {
 }
 
 :deep() .header-input input {
+  color: black;
+}
+
+:deep() .header-input select {
+  color: black;
+}
+
+:deep() .header-input option {
   color: black;
 }
 
@@ -219,5 +287,4 @@ export default {
 .table-div::-webkit-scrollbar-thumb:hover {
   background: #888;
 }
-
 </style>

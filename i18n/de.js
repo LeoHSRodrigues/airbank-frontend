@@ -22,5 +22,10 @@ export default {
             fourthColumn: 'Bedrag',
             invalidReference: 'Geen referentie opgegeven'
         }
+    },
+    components: {
+        select: {
+            all: 'Alles'
+        }
     }
 }

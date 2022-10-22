@@ -1,0 +1,7 @@
+query allAccounts($offset: Int, $limit: Int) {
+  allAccounts(offset: $offset, limit: $limit) {
+    id
+    name
+    bank
+  }
+}
