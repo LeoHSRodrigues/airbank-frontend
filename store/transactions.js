@@ -11,7 +11,7 @@ export const getters = {
     getTransactions(state) {
         return state.transactions
     },
-    getTransasctionDetails(state) {
+    getTransactionDetails(state) {
         return state.transaction
     },
 }

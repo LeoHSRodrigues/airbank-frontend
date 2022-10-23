@@ -25,6 +25,16 @@ export default {
             invalidReference: 'No reference provided'
         }
     },
+    details: {
+        transactionDetails: 'Transaction details',
+        inputName: 'Name',
+        inputBank: 'Bank',
+        inputAmount: 'Amount',
+        inputCurrency: 'Currency',
+        inputCategory: 'Category',
+        newCategory: 'Create a new category',
+        submitButton: 'Update',
+    },
     components: {
         select: {
             all: 'All'

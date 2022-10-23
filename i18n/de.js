@@ -25,6 +25,16 @@ export default {
             invalidReference: 'Geen referentie opgegeven'
         }
     },
+    details: {
+        transactionDetails: 'Transactie details',
+        inputName: 'Naam',
+        inputBank: 'Bank',
+        inputAmount: 'Bedrag',
+        inputCurrency: 'Munteenheid',
+        inputCategory: 'Categorie',
+        newCategory: 'Maak een nieuwe categorie',
+        submitButton: 'Update',
+    },
     components: {
         select: {
             all: 'Alles'

@@ -1,5 +1,12 @@
-html,body, #__nuxt, #__layout{
-    height:100%;
-    width: 100%;
-    background-color: #fafaf8;
-  }
+html,
+body,
+#__nuxt,
+#__layout {
+  height: 100%;
+  width: 100%;
+  background-color: #fafaf8;
+}
+
+.text-muted {
+  color: #979797;
+}

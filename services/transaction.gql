@@ -1,0 +1,14 @@
+query transaction($id: String) {
+  transaction(id: $id) {
+    id
+    currency
+    date
+    amount
+    reference
+    categoryId
+    account {
+      name
+      bank
+    }
+  }
+}

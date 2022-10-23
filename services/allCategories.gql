@@ -1,0 +1,7 @@
+query allCategories($offset: Int, $limit: Int) {
+  allCategories(offset: $offset, limit: $limit) {
+    id
+    name
+    color
+  }
+}

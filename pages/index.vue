@@ -135,6 +135,7 @@ import ChevronDown from "~/static/icons/chevron-down.svg?inline";
 import allTransactions from '~/services/allTransaction'
 import allAccounts from '~/services/allAccounts'
 import NoResults from "~/static/icons/no-results.svg?inline";
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'index',
@@ -175,14 +176,18 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      setTransaction: 'transactions/transaction'
+    }),
     resetTransactionOptions() {
       this.isLoading = true
       this.transactions = []
       this.transactionOffset = this.defaultTransactionOptions.transactionOffset
       this.transactionLimit = this.defaultTransactionOptions.transactionLimit
     },
-    handleInvoiceClick(event) {
-      console.log()
+    handleInvoiceClick(transaction) {
+      this.setTransaction(transaction)
+      this.$router.push(this.localePath({ name: 'transaction' }));
     },
     handleSearch(search) {
       this.search = search

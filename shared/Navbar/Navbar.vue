@@ -1,7 +1,7 @@
 <template>
     <div class="navbar-content h-full">
         <div class="flex">
-            <AirbankLogo />
+            <AirbankLogo @click="handleLogoClick" />
         </div>
         <div class="flex navbar-language-select">
             <FormSelect :options="availableLocales" @change="handleLanguageChange" :selected="selectedLanguage" />
@@ -29,6 +29,9 @@ export default {
         handleLanguageChange(event) {
             this.selectedLanguage = event;
             this.$router.replace(this.switchLocalePath(event));
+        },
+        handleLogoClick() {
+            this.$router.push(this.localePath({ name: 'index' }));
         }
     },
     computed: {
@@ -49,6 +52,10 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.navbar-content svg{
+    cursor: pointer;
 }
 
 .navbar-language-select {

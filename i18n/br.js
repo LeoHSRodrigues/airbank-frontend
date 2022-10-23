@@ -25,6 +25,16 @@ export default {
             invalidReference: 'Referência Inválida'
         }
     },
+    details: {
+        transactionDetails: 'Detalhes da transação',
+        inputName: 'Nome',
+        inputBank: 'Banco',
+        inputAmount: 'Quantia',
+        inputCurrency: 'Moeda',
+        inputCategory: 'Categoria',
+        newCategory: 'Criar nova categoria',
+        submitButton: 'Atualizar',
+    },
     components: {
         select: {
             all: 'Todos'
