@@ -1,7 +1,7 @@
 <template>
-    <div class="details h-full flex justify-center items-center">
+    <div class="details h-full flex justify-center items-center mt-12 md:mt-0">
         <div v-if="canLoadPage"
-            class="flex flex-col h-4/5 w-6/12 p-6 bg-white rounded-lg border border-gray-200 shadow-md">
+            class="flex flex-col h-4/5 w-9/12 p-6 lg:w-6/12 bg-white rounded-lg border border-gray-200 shadow-md">
             <div class="flex flex-col">
                 <h3 class="font-bold text-lg">
                     {{ $t('details.transactionDetails') }} - {{ transaction.reference }}
@@ -11,8 +11,8 @@
                 </span>
             </div>
             <div class="flex flex-col grow">
-                <div class="flex justify-around mb-4 mt-12">
-                    <div>
+                <div class="flex flex-col md:flex-row justify-around mb-4 mt-2 md:mt-12">
+                    <div class="mb-4 md:mb-0">
                         <FormInput showLabel :label="$t('details.inputName')" disabled
                             :value="transaction.account.name" />
                     </div>
@@ -21,8 +21,8 @@
                             :value="transaction.account.bank" />
                     </div>
                 </div>
-                <div class="flex justify-around">
-                    <div>
+                <div class="flex justify-around flex-col md:flex-row ">
+                    <div class="mb-4 md:mb-0">
                         <FormInput showLabel :label="$t('details.inputAmount')" disabled :value="transaction.amount" />
                     </div>
                     <div>
@@ -30,8 +30,8 @@
                             :value="transaction.currency" />
                     </div>
                 </div>
-                <div class="flex justify-center items-center mt-4 ">
-                    <FormSelect class="w-6/12" @change="handleCategoryChange" :selected="getSelectedCategory"
+                <div class="flex justify-center items-center mt-4 mb-8 md:mb-0">
+                    <FormSelect class="w-full md:w-6/12" @change="handleCategoryChange" :selected="getSelectedCategory"
                         :options="getCategories" :label="$t('details.inputCategory')" showLabel />
                 </div>
                 <div class="flex justify-center items-end mt-4 grow">
