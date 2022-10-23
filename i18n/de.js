@@ -7,6 +7,8 @@ export default {
     },
     home: {
         transactions: 'Transacties',
+        notFoundTitle: 'Geen resultaten om weer te geven',
+        notFoundSubtitle: 'Controleer de spelling of probeer andere trefwoorden',
         filters: {
             search: 'Zoeken',
             searchLabel: 'Zoek op bank, rekening, referentie, categorie, datum, bedrag, valuta...',

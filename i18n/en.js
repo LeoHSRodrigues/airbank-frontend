@@ -7,6 +7,8 @@ export default {
     },
     home: {
         transactions: 'Transactions',
+        notFoundTitle: 'No results to show',
+        notFoundSubtitle: 'Please check spelling or try different keywords',
         filters: {
             search: 'Search',
             searchLabel: 'Search by bank, account, reference, category, date, amount, currency...',

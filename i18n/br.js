@@ -7,6 +7,8 @@ export default {
     },
     home: {
         transactions: 'Transações',
+        notFoundTitle: 'Sem resultados para exibir',
+        notFoundSubtitle: 'Verifique a ortografia ou tente palavras-chave diferentes',
         filters: {
             search: 'Procurar',
             searchLabel: 'Pesquise por banco, conta, referência, categoria, data, quantia, moeda...',
