@@ -1,7 +1,8 @@
 export const state = () => ({
     transactionOptions: {
         limit: 10,
-        offset: 0
+        offset: 0,
+        shouldCacheResults: false
     },
     transactions: {},
     transaction: {},
@@ -14,6 +15,9 @@ export const getters = {
     getTransactionDetails(state) {
         return state.transaction
     },
+    getTransactionCacheReset(state) {
+        return state.transactionOptions.shouldCacheResults
+    },
 }
 
 export const mutations = {
@@ -25,6 +29,9 @@ export const mutations = {
     },
     transactionOptions(state, transactionOptions) {
         state.transactionOptions = transactionOptions
+    },
+    resetTransactionCache(state, shouldCache) {
+        state.transactionOptions.shouldCacheResults = shouldCache
     },
 }
 
@@ -40,5 +47,8 @@ export const actions = {
         const res = { data: 10 };
         state.counter = res.data;
         return res.data;
+    },
+    async setTransactionCache({ state }, shouldCache) {
+        commit("resetTransactionCache", shouldCache);
     },
 }

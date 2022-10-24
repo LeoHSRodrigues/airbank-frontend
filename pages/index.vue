@@ -70,7 +70,7 @@
               <tr v-for="transaction in transactions" :key="transaction.id" @click="handleInvoiceClick(transaction)">
                 <td scope="row" class="py-4 px-6 text-left">
                   <span :class="transaction.reference ? '' : 'text-muted'">
-                    {{ transaction.reference || $t('home.table.invalidReference')}}
+                    {{ transaction.reference || $t('home.table.invalidReference') }}
                   </span>
                 </td>
                 <td class="py-4 px-6 flex justify-start">
@@ -135,13 +135,14 @@ import ChevronDown from "~/static/icons/chevron-down.svg?inline";
 import allTransactions from '~/services/allTransaction'
 import allAccounts from '~/services/allAccounts'
 import NoResults from "~/static/icons/no-results.svg?inline";
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 
 export default {
   name: 'index',
   apollo: {
     allTransactions: {
       query: allTransactions,
+      fetchPolicy: 'network-only',
       variables() {
         return { search: this.search, offset: this.transactionOffset, limit: this.transactionLimit, initialDate: this.initialDate, endingDate: this.endingDate, accountId: this.selectedAccount, bankName: this.rawBankName }
       }
@@ -276,16 +277,17 @@ export default {
           value: account.bank
         }
       })
-    },
+    }
   },
   watch: {
     allTransactions: {
-      handler(newValue, oldValues) {
-        if (newValue && newValue.length && oldValues && oldValues.length && newValue[0].id === oldValues[0].id) {
-          this.isLoading = false
-          return
-        }
-        this.transactions.push(...newValue)
+      handler(newTransactions, oldTransactions) {
+        console.log('aaa')
+        // if (newTransactions && newTransactions.length && oldTransactions && oldTransactions.length && newTransactions[0].id === oldTransactions[0].id) {
+        //   this.isLoading = false
+        //   return
+        // }
+        this.transactions.push(...newTransactions)
         this.isLoading = false
       },
     }
