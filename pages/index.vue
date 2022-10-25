@@ -49,7 +49,7 @@
                     </span>
                   </div>
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <th scope="col" class="py-3 px-6" @click="handleOrderChange">
                   <div class="flex items-center justify-center">
                     <span class="table-head-content">
                       {{ $t('home.table.thirdColumn') }}
@@ -135,7 +135,7 @@ import ChevronDown from "~/static/icons/chevron-down.svg?inline";
 import allTransactions from '~/services/allTransaction'
 import allAccounts from '~/services/allAccounts'
 import NoResults from "~/static/icons/no-results.svg?inline";
-import { mapMutations, mapGetters } from 'vuex'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'index',
@@ -144,7 +144,7 @@ export default {
       query: allTransactions,
       fetchPolicy: 'network-only',
       variables() {
-        return { search: this.search, offset: this.transactionOffset, limit: this.transactionLimit, initialDate: this.initialDate, endingDate: this.endingDate, accountId: this.selectedAccount, bankName: this.rawBankName }
+        return { search: this.search, offset: this.transactionOffset, limit: this.transactionLimit, initialDate: this.initialDate, endingDate: this.endingDate, accountId: this.selectedAccount, bankName: this.rawBankName, order: this.order }
       }
     },
     allAccounts: {
@@ -163,6 +163,7 @@ export default {
         transactionLimit: 30,
       },
       search: '',
+      order: 'desc',
       debounceTime: 1000,
       selectedBank: this.$i18n.t('components.select.all'),
       rawBankName: null,
@@ -205,6 +206,7 @@ export default {
 
       this.selectedBank = bank
       this.rawBankName = bank
+      this.selectedAccount = this.$i18n.t('components.select.all')
       this.resetTransactionOptions()
     },
     handleAccountChange(account) {
@@ -232,6 +234,10 @@ export default {
       if (scrollTop + clientHeight >= scrollHeight) {
         this.transactionOffset += this.transactionLimit
       }
+    },
+    handleOrderChange() {
+      this.resetTransactionOptions()
+      this.order = this.order === 'desc' ? 'asc' : 'desc'
     }
   },
   computed: {
@@ -282,11 +288,10 @@ export default {
   watch: {
     allTransactions: {
       handler(newTransactions, oldTransactions) {
-        console.log('aaa')
-        // if (newTransactions && newTransactions.length && oldTransactions && oldTransactions.length && newTransactions[0].id === oldTransactions[0].id) {
-        //   this.isLoading = false
-        //   return
-        // }
+        if (newTransactions && newTransactions.length && oldTransactions && oldTransactions.length && newTransactions[0].id === oldTransactions[0].id) {
+          this.isLoading = false
+          return
+        }
         this.transactions.push(...newTransactions)
         this.isLoading = false
       },

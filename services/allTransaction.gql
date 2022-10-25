@@ -1,5 +1,5 @@
-query allTransactions($search: String, $offset: Int, $limit: Int, $initialDate: Date, $endingDate: Date, $accountId: String, $bankName: String) {
-  allTransactions(search: $search, offset: $offset, limit: $limit, initialDate: $initialDate, endingDate: $endingDate, accountId: $accountId, bankName: $bankName) {
+query allTransactions($search: String, $offset: Int, $limit: Int, $initialDate: Date, $endingDate: Date, $accountId: String, $bankName: String, $order: String) {
+  allTransactions(search: $search, offset: $offset, limit: $limit, initialDate: $initialDate, endingDate: $endingDate, accountId: $accountId, bankName: $bankName, order: $order) {
     id
     currency
     date
