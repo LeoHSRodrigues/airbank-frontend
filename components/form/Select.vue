@@ -1,9 +1,11 @@
 <template>
     <div class="flex flex-col">
         <label v-if="showLabel" class="block mb-1">{{ label }}</label>
-        <select :value="defaultSelected" class="border border-gray-300 flex p-2" @change="handleChange" v-bind="$attrs">
+        <select v-model="defaultSelected" class="border border-gray-300 flex p-2"
+            v-bind="$attrs">
             <option v-for="option in options" :key="option.value" :value="option.value">{{
-            option.name }}</option>
+                    option.name
+            }}</option>
         </select>
     </div>
 </template>
@@ -29,13 +31,14 @@ export default {
         },
     },
     computed: {
-        defaultSelected() {
-            return this.$props.selected
-        }
-    },
-    methods: {
-        handleChange(event) {
-            this.$emit('change', event.target.value)
+        defaultSelected: {
+            get: function() {
+                return this.$props.selected
+
+            },
+            set: function(value) {
+                this.$emit('change', value)
+            }
         }
     },
 }

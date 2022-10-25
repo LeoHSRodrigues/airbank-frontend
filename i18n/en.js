@@ -32,8 +32,16 @@ export default {
         inputAmount: 'Amount',
         inputCurrency: 'Currency',
         inputCategory: 'Category',
-        newCategory: 'Create a new category',
+        newCategorySelect: 'Create a new category',
         submitButton: 'Update',
+        newCategory: {
+            header: 'Create a new category',
+            inputCategory: 'Category',
+            inputCategoryPlaceholder: 'Enter a name for the category',
+            inputColor: 'Category color',
+            selectErrorMessage: 'Invalid category name',
+            submitButton: 'Create'
+        }
     },
     components: {
         select: {

@@ -31,18 +31,18 @@
                     </div>
                 </div>
                 <div class="flex justify-center items-center mt-4 mb-8 md:mb-0">
-                    <FormSelect class="w-full md:w-6/12" @change="handleCategoryChange" :selected="getSelectedCategory"
-                        :options="getCategories" :label="$t('details.inputCategory')" showLabel />
+                    <FormSelect class="w-full md:w-6/12" @change="handleCategoryChange" :selected="selectedCategory"
+                        :options="categories" :label="$t('details.inputCategory')" showLabel />
                 </div>
                 <div class="flex justify-center items-end mt-4 grow">
                     <button @click="updateTransaction" :disabled="isButtonDisabled"
                         class="bg-black p-4 rounded-lg text-white submit-button" type="button">{{
-        $t('details.submitButton')
+                                $t('details.submitButton')
                         }}</button>
                 </div>
             </div>
-            <div class="input-new-category" v-if="selectedCategory === 'new'">
-                <NewCategoryForm />
+            <div class="input-new-category w-full lg:w-1/5" v-if="selectedCategory === 'new'">
+                <NewCategoryForm @saveCategory="handleNewCategory" />
             </div>
         </div>
     </div>
@@ -53,6 +53,7 @@ import { ref } from 'vue';
 import { mapGetters } from 'vuex';
 import allCategories from '~/services/allCategories'
 import transaction from '~/services/transaction'
+import newCategory from '~/services/newCategory'
 import updateTransactionCategory from '~/services/updateTransactionCategory'
 import NewCategoryForm from './components/-newCategoryForm.vue';
 
@@ -78,7 +79,7 @@ export default {
     data() {
         return {
             categories: ref([]),
-            selectedCategory: "new",
+            selectedCategory: "",
             transactionId: null,
             offset: 0,
             limit: 50
@@ -106,29 +107,39 @@ export default {
                 },
             });
             this.$router.push(this.localePath({ name: "index" }));
+        },
+        async handleNewCategory(data) {
+            try {
+                const newCategoryData = await this.$apollo.mutate({
+                    mutation: newCategory,
+                    variables: {
+                        name: data.name,
+                        color: data.color
+                    },
+                });
+
+                this.categories.pop()
+
+                this.categories.push({
+                    name: newCategoryData.data.newCategory.name,
+                    value: newCategoryData.data.newCategory.id
+                });
+
+                this.categories.push({
+                    name: `--- ${this.$i18n.t("details.newCategorySelect")} ---`,
+                    value: "new"
+                });
+
+                this.selectedCategory = newCategoryData.data.newCategory.id
+
+            } catch (error) {
+                console.log(error)
+            }
         }
     },
     computed: {
-        getCategories() {
-            if (!this.allCategories)
-                return [];
-            const categories = this.allCategories.map(category => {
-                return {
-                    name: category.name,
-                    value: category.id
-                };
-            });
-            categories.push({
-                name: `--- ${this.$i18n.t("details.newCategory")} ---`,
-                value: "new"
-            });
-            return categories;
-        },
-        getSelectedCategory() {
-            return this.selectedCategory;
-        },
         canLoadPage() {
-            return this.transaction;
+            return this.transaction && this.categories.length;
         },
         isButtonDisabled() {
             return !this.selectedCategory || this.selectedCategory === "new";
@@ -140,7 +151,28 @@ export default {
                 if (newValue && newValue.length && oldValues && oldValues.length && newValue[0].id === oldValues[0].id) {
                     return;
                 }
-                // this.selectedCategory = this.transaction.categoryId
+                this.selectedCategory = this.transaction.categoryId
+            },
+        },
+        allCategories: {
+            handler(newValue, oldValues) {
+                if (newValue && newValue.length && oldValues && oldValues.length && newValue[0].id === oldValues[0].id) {
+                    return;
+                }
+                if (!this.allCategories)
+                    return [];
+                const categories = this.allCategories.map(category => {
+                    return {
+                        name: category.name,
+                        value: category.id
+                    };
+                });
+                categories.push({
+                    name: `--- ${this.$i18n.t("details.newCategorySelect")} ---`,
+                    value: "new"
+                });
+
+                this.categories = categories
             },
         }
     },
@@ -156,10 +188,9 @@ export default {
 .input-new-category {
     display: flex;
     position: absolute;
-    bottom: 8px;
+    bottom: 0;
     right: 0;
     background: white;
-    width: 336px;
-    height: 290px;
+    height: 60%;
 }
 </style>

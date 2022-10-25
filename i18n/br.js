@@ -32,8 +32,16 @@ export default {
         inputAmount: 'Quantia',
         inputCurrency: 'Moeda',
         inputCategory: 'Categoria',
-        newCategory: 'Criar nova categoria',
+        newCategorySelect: 'Criar nova categoria',
         submitButton: 'Atualizar',
+        newCategory: {
+            header: 'Criar uma nova categoria',
+            inputCategory: 'Categoria',
+            inputCategoryPlaceholder: 'Digite um nome para a categoria',
+            inputColor: 'Cor da categoria',
+            selectErrorMessage: 'Escolha um nome de categoria válida',
+            submitButton: 'Criar'
+        }
     },
     components: {
         select: {

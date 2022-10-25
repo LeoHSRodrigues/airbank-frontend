@@ -32,8 +32,16 @@ export default {
         inputAmount: 'Bedrag',
         inputCurrency: 'Munteenheid',
         inputCategory: 'Categorie',
-        newCategory: 'Maak een nieuwe categorie',
+        newCategorySelect: 'Maak een nieuwe categorie',
         submitButton: 'Update',
+        newCategory: {
+            header: 'Maak een nieuwe categorie',
+            inputCategory: 'Categorie',
+            inputCategoryPlaceholder: 'Voer een naam in voor de categorie',
+            inputColor: 'Categorie kleur',
+            selectErrorMessage: 'Ongeldige categorienaam',
+            submitButton: 'Creëren'
+        }
     },
     components: {
         select: {

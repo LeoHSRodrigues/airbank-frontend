@@ -5,24 +5,86 @@
                 <fa icon="xmark" />
             </span>
             <div class="flex w-full justify-center">
-                <span>Criar nova categoria</span>
+                <span>{{ $t('details.newCategory.header') }}</span>
             </div>
         </div>
         <div class="flex w-full justify-center">
-            <FormInput label="Categoria" showLabel />
+            <FormInput :placeholder="$t('details.newCategory.inputCategoryPlaceholder')" :class="inputHasErrorClass"
+                :debounceTime="0" :label="$t('details.newCategory.inputCategory')" @inputChange="handleCategoryChange"
+                showLabel :value="category" :hasError="showErrorMessage"
+                :errorMessage="$t('details.newCategory.selectErrorMessage')" />
+        </div>
+        <div class="flex w-full justify-center items-center flex-col">
+            <div class="flex ">
+                <span>{{ $t('details.newCategory.inputColor') }}</span>
+            </div>
+            <Chrome @input="handleColorChange" :value="color"></Chrome>
         </div>
         <div class="flex w-6/12 pb-4">
-            <button class="bg-black p-4 rounded-lg text-white submit-button w-full" type="button">Cadastrar</button>
+            <button :disabled="isButtonDisabled" @click="saveCategory"
+                class="bg-black p-4 rounded-lg text-white submit-button w-full" type="button">{{
+                        $t('details.newCategory.submitButton')
+                }}</button>
         </div>
     </div>
 </template>
 
 <script>
 import Input from '~/components/form/Input.vue';
+import { Chrome } from 'vue-color'
 
 export default {
     name: "NewCategoryForm",
-    components: { Input }
+    components: { Input, Chrome },
+    data() {
+        return {
+            category: '',
+            color: '#194d33',
+            categoryHasError: true
+        }
+    },
+    methods: {
+        inputHasError(category) {
+            const regex = /^[\-@&()$#*|\\//A-Za-z0-9\u00C0-\u017F ]+$/
+
+            if (!regex.test(category)) {
+                return true
+            }
+            return false
+        },
+        handleCategoryChange(category) {
+            this.category = category
+
+            const inputHasError = this.inputHasError(category)
+
+            if (inputHasError) {
+                this.categoryHasError = true
+                return
+            }
+            this.categoryHasError = false
+        },
+        saveCategory() {
+            const data = {
+                color: this.color,
+                name: this.category
+            }
+            this.$emit('saveCategory', data)
+        },
+        handleColorChange(event) {
+            this.color = event.hex
+        }
+    },
+    computed: {
+        isButtonDisabled() {
+            return this.inputHasError(this.category) || !this.color.trim()
+        },
+        inputHasErrorClass() {
+            return this.categoryHasError ? 'invalid-input' : ''
+        },
+        showErrorMessage() {
+            return this.categoryHasError
+        },
+    },
 }
 </script>
 
@@ -31,5 +93,14 @@ export default {
     position: absolute;
     right: 20px;
     cursor: pointer;
+}
+
+:deep() .vc-chrome {
+    border: 1px solid #e5e7eb;
+    box-shadow: none;
+}
+
+.submit-button:disabled {
+    background-color: #979797;
 }
 </style>

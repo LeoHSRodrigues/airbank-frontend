@@ -24,7 +24,7 @@ export default {
         },
         label: {
             type: String,
-            default: false
+            default: ''
         },
         leftIcon: {
             type: Boolean,
@@ -32,11 +32,11 @@ export default {
         },
         debounceTime: {
             type: Number,
-            default: true
+            default: 300
         },
         value: {
             type: String,
-            default: true
+            default: ''
         }
     },
     data() {
