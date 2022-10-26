@@ -54,7 +54,7 @@ export default {
     align-items: center;
 }
 
-.navbar-content svg{
+.navbar-content svg {
     cursor: pointer;
 }
 

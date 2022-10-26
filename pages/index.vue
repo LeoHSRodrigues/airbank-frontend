@@ -232,6 +232,8 @@ export default {
     },
     handleTableScroll({ target: { scrollTop, clientHeight, scrollHeight } }) {
       if (scrollTop + clientHeight >= scrollHeight) {
+        const hasMoreResults = this.transactionOffset + this.transactionLimit
+        if (hasMoreResults > this.allTransactions.count) return
         this.transactionOffset += this.transactionLimit
       }
     },
@@ -288,11 +290,7 @@ export default {
   watch: {
     allTransactions: {
       handler(newTransactions, oldTransactions) {
-        if (newTransactions && newTransactions.length && oldTransactions && oldTransactions.length && newTransactions[0].id === oldTransactions[0].id) {
-          this.isLoading = false
-          return
-        }
-        this.transactions.push(...newTransactions)
+        this.transactions.push(...newTransactions.data)
         this.isLoading = false
       },
     }
