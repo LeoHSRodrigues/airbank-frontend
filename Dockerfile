@@ -1,8 +1,17 @@
-FROM node:lts as builder
+FROM node:16 as builder
 
 WORKDIR /app
 
 COPY . .
+
+ARG NODE_ENV
+ENV NODE_ENV ${NODE_ENV}
+
+ARG PORT
+ENV PORT ${PORT}
+
+ARG GRAPH_API
+ENV GRAPH_API ${GRAPH_API}
 
 RUN yarn install \
   --prefer-offline \
