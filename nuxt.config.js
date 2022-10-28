@@ -101,7 +101,7 @@ export default {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: process.env.GRAPH_API,
+        httpEndpoint: `${process.env.API_BASE_URL}/${process.env.GRAPH_API}`,
       },
     },
   },

@@ -13,6 +13,9 @@ ENV PORT ${PORT}
 ARG GRAPH_API
 ENV GRAPH_API ${GRAPH_API}
 
+ARG API_BASE_URL
+ENV API_BASE_URL ${API_BASE_URL}
+
 RUN yarn install \
   --prefer-offline \
   --frozen-lockfile \
