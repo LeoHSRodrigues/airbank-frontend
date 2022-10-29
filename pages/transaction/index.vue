@@ -4,7 +4,8 @@
             class="flex flex-col h-4/5 w-9/12 p-6 lg:w-6/12 bg-white rounded-lg border border-gray-200 shadow-md">
             <div class="flex flex-col">
                 <h3 class="font-bold text-lg">
-                    {{ $t('details.transactionDetails') }} - {{ transaction.reference }}
+                    {{ $t('details.transactionDetails') }} {{ transaction.reference ? `- ${transaction.reference}` : ''
+                    }}
                 </h3>
                 <span class="text-muted">
                     {{ transaction.date ? $d(new Date(transaction.date), 'short') : '' }}

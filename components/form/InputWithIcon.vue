@@ -8,7 +8,7 @@
             <div v-else class="flex absolute inset-y-0 right-0 items-center pr-3 pointer-events-none">
                 <slot name="icon"></slot>
             </div>
-            <input type="text" v-model="input" :class="leftIcon ? 'pl-10' : 'pr-10'" class="flex p-2 border w-full"
+            <input :data-testid="getUniqueId" type="text" v-model="input" :class="leftIcon ? 'pl-10' : 'pr-10'" class="flex p-2 border w-full"
                 v-bind="$attrs">
         </div>
     </div>
@@ -37,7 +37,11 @@ export default {
         value: {
             type: String,
             default: ''
-        }
+        },
+        uniqueId: {
+            type: String,
+            default: ''
+        },
     },
     data() {
         return {
@@ -55,7 +59,10 @@ export default {
                     this.$emit('inputChange', val)
                 }, this.debounceTime)
             }
-        }
+        },
+        getUniqueId () {
+            return `input-icon-${this.$props.uniqueId}`
+        },
     }
 }
 </script>

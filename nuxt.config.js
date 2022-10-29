@@ -110,5 +110,9 @@ export default {
     icons: {
       solid: true
     }
-  }
+  },
+  watchers: {
+    chokidar: { ignored: /cypress/ },
+    webpack: { ignored: /cypress/ }
+  },
 }

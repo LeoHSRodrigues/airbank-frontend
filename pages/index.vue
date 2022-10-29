@@ -7,7 +7,7 @@
         </div>
         <div class="flex flex-col lg:flex-row">
           <div class="w-full lg:w-6/12 header-input mr-4 mb-4">
-            <FormInputWithIcon :value="this.search" :debounceTime="debounceTime" @inputChange="handleSearch"
+            <FormInputWithIcon uniqueId="search" :value="this.search" :debounceTime="debounceTime" @inputChange="handleSearch"
               :label="$t('home.filters.search')" showLabel :placeholder="$t('home.filters.searchLabel')">
               <template v-slot:icon>
                 <fa icon="magnifying-glass" />
@@ -15,19 +15,19 @@
             </FormInputWithIcon>
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4">
-            <FormSelect @change="handleBankChange" :selected="selectedBank" :options="getBanks"
+            <FormSelect uniqueId="bank" @change="handleBankChange" :selected="selectedBank" :options="getBanks"
               :label="$t('home.filters.bank')" showLabel />
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4">
-            <FormSelect :disabled="selectedBank === $t('components.select.all')" @change="handleAccountChange"
+            <FormSelect uniqueId="account" :disabled="selectedBank === $t('components.select.all')" @change="handleAccountChange"
               :selected="selectedAccount" :options="getAccounts" :label="$t('home.filters.account')" showLabel />
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4 header-input-date">
-            <FormInputDate @change="handleInitialDateChange" :defaultValue="initialDate"
+            <FormInputDate uniqueId="starting-date"  @change="handleInitialDateChange" :defaultValue="initialDate"
               :label="$t('home.filters.startingMonth')" showLabel type="month" />
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4 header-input-date">
-            <FormInputDate @change="handleEndingDateChange" :defaultValue="endingDate"
+            <FormInputDate uniqueId="ending-date"  @change="handleEndingDateChange" :defaultValue="endingDate"
               :label="$t('home.filters.endingMonth')" showLabel type="month" :disableDate="disablePastDates" />
           </div>
         </div>

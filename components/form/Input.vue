@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col" :class="inputHasErrorClass">
         <label v-if="showLabel" class="block mb-1">{{ label }}</label>
-        <input v-model="input" type="text" class="block p-2 border" v-bind="$attrs">
+        <input :data-testid="getUniqueId" v-model="input" type="text" class="block p-2 border" v-bind="$attrs">
         <p v-if="hasError">{{ errorMessage }}</p>
     </div>
 </template>
@@ -34,6 +34,10 @@ export default {
             type: Boolean,
             default: false
         },
+        uniqueId: {
+            type: String,
+            default: ''
+        },
     },
     data() {
         return {
@@ -54,6 +58,9 @@ export default {
         },
         inputHasErrorClass() {
             return this.categoryHasError ? 'invalid-input' : ''
+        },
+        getUniqueId () {
+            return `input-${this.$props.uniqueId}`
         },
     }
 }

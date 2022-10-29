@@ -1,8 +1,8 @@
 <template>
     <div class="flex flex-col">
         <label v-if="showLabel" class="block mb-1">{{ label }}</label>
-        <date-picker :lang="lang" class="datePicker flex w-full" :value="defaultValue" v-bind="$attrs"
-            @change="handleChange" :disabled-date="disableDate" />
+        <date-picker :data-testid="getUniqueId" :lang="lang" class="datePicker flex w-full" :value="defaultValue"
+            v-bind="$attrs" @change="handleChange" :disabled-date="disableDate" />
     </div>
 </template>
 
@@ -33,6 +33,10 @@ export default {
             type: Date,
             default: null
         },
+        uniqueId: {
+            type: String,
+            default: ''
+        },
     },
     mounted() {
         if (this.$i18n.locale === 'br') {
@@ -51,6 +55,11 @@ export default {
             this.$emit('change', event)
         }
     },
+    computed: {
+        getUniqueId() {
+            return `input-${this.$props.uniqueId}`
+        },
+    }
 }
 </script>
 
@@ -60,6 +69,7 @@ export default {
     border-radius: 0px;
     border: 1px solid #e5e7eb;
 }
+
 :deep() .datePicker i {
     cursor: pointer;
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col">
         <label v-if="showLabel" class="block mb-1">{{ label }}</label>
-        <select v-model="defaultSelected" class="border border-gray-300 flex p-2"
+        <select :data-testid="getUniqueId" v-model="defaultSelected" class="border border-gray-300 flex p-2"
             v-bind="$attrs">
             <option v-for="option in options" :key="option.value" :value="option.value">{{
                     option.name
@@ -29,6 +29,10 @@ export default {
             type: String,
             default: ''
         },
+        uniqueId: {
+            type: String,
+            default: ''
+        },
     },
     computed: {
         defaultSelected: {
@@ -39,7 +43,10 @@ export default {
             set: function(value) {
                 this.$emit('change', value)
             }
-        }
+        },
+        getUniqueId () {
+            return `select-${this.$props.uniqueId}`
+        },
     },
 }
 </script>
