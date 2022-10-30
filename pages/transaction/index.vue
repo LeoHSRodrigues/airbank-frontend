@@ -3,7 +3,7 @@
         <div v-if="canLoadPage"
             class="flex flex-col h-4/5 w-9/12 p-6 lg:w-6/12 bg-white rounded-lg border border-gray-200 shadow-md">
             <div class="flex flex-col">
-                <h3 class="font-bold text-lg">
+                <h3 class="font-bold text-lg" data-testid="transaction-header">
                     {{ $t('details.transactionDetails') }} {{ transaction.reference ? `- ${transaction.reference}` : ''
                     }}
                 </h3>
@@ -32,17 +32,19 @@
                     </div>
                 </div>
                 <div class="flex justify-center items-center mt-4 mb-8 md:mb-0">
-                    <FormSelect class="w-full md:w-6/12" @change="handleCategoryChange" :selected="selectedCategory"
-                        :options="categories" :label="$t('details.inputCategory')" showLabel />
+                    <FormSelect uniqueId="category" class="w-full md:w-6/12" @change="handleCategoryChange"
+                        :selected="selectedCategory" :options="categories" :label="$t('details.inputCategory')"
+                        showLabel />
                 </div>
                 <div class="flex justify-center items-end mt-4 grow">
-                    <button @click="updateTransaction" :disabled="isButtonDisabled"
+                    <button data-testid="submit-transaction" @click="updateTransaction" :disabled="isButtonDisabled"
                         class="bg-black p-4 rounded-lg text-white submit-button" type="button">{{
                                 $t('details.submitButton')
                         }}</button>
                 </div>
             </div>
-            <div class="input-new-category w-full lg:w-1/5" v-if="selectedCategory === 'new'">
+            <div data-testid="input-new-category" class="input-new-category w-full lg:w-1/5"
+                v-if="selectedCategory === 'new'">
                 <NewCategoryForm @saveCategory="handleNewCategory" />
             </div>
         </div>
