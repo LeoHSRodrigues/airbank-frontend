@@ -8,6 +8,13 @@ describe('Home Tests', () => {
       cy.get('table').should('exist')
     })
 
+    it('should correctly internationalize app', () => {
+      cy.get('[data-testid="select-i18n"]').select('br')
+      cy.location('pathname').should('eq', '/br')
+      cy.get('[data-testid="input-icon-search"]').invoke("prop","placeholder")
+      .should("contain", "Pesquise por banco, conta, referência, categoria, data, quantia, moeda...");
+    })
+
     it('account should be disabled without selecting an bank', () => {
       cy.get('[data-testid="select-account"]').should('be.disabled')
     })
