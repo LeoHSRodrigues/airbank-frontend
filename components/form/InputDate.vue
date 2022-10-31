@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col">
         <label v-if="showLabel" class="block mb-1">{{ label }}</label>
-        <date-picker :data-testid="getUniqueId" :lang="lang" class="datePicker flex w-full" :value="defaultValue"
+        <date-picker @clear="clear" :data-testid="getUniqueId" :lang="lang" class="datePicker flex w-full" :value="defaultValue"
             v-bind="$attrs" @change="handleChange" :disabled-date="disableDate" />
     </div>
 </template>
@@ -28,6 +28,10 @@ export default {
         disableDate: {
             type: Function,
             default: () => false
+        },
+        clear: {
+            type: Function,
+            default: () => ({})
         },
         defaultValue: {
             type: Date,

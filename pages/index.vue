@@ -7,8 +7,9 @@
         </div>
         <div class="flex flex-col lg:flex-row">
           <div class="w-full lg:w-6/12 header-input mr-4 mb-4">
-            <FormInputWithIcon uniqueId="search" :value="this.search" :debounceTime="debounceTime" @inputChange="handleSearch"
-              :label="$t('home.filters.search')" showLabel :placeholder="$t('home.filters.searchLabel')">
+            <FormInputWithIcon uniqueId="search" :value="this.search" :debounceTime="debounceTime"
+              @inputChange="handleSearch" :label="$t('home.filters.search')" showLabel
+              :placeholder="$t('home.filters.searchLabel')">
               <template v-slot:icon>
                 <fa icon="magnifying-glass" />
               </template>
@@ -19,16 +20,18 @@
               :label="$t('home.filters.bank')" showLabel />
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4">
-            <FormSelect uniqueId="account" :disabled="selectedBank === $t('components.select.all')" @change="handleAccountChange"
-              :selected="selectedAccount" :options="getAccounts" :label="$t('home.filters.account')" showLabel />
+            <FormSelect uniqueId="account" :disabled="selectedBank === $t('components.select.all')"
+              @change="handleAccountChange" :selected="selectedAccount" :options="getAccounts"
+              :label="$t('home.filters.account')" showLabel />
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4 header-input-date">
-            <FormInputDate uniqueId="starting-date"  @change="handleInitialDateChange" :defaultValue="initialDate"
+            <FormInputDate uniqueId="starting-date" @change="handleInitialDateChange" :defaultValue="initialDate"
               :label="$t('home.filters.startingMonth')" showLabel type="month" />
           </div>
           <div class="w-full lg:w-2/12 header-input mr-4 mb-4 header-input-date">
-            <FormInputDate uniqueId="ending-date"  @change="handleEndingDateChange" :defaultValue="endingDate"
-              :label="$t('home.filters.endingMonth')" showLabel type="month" :disableDate="disablePastDates" />
+            <FormInputDate @clear="handleClearEndingDate" uniqueId="ending-date" @change="handleEndingDateChange"
+              :defaultValue="endingDate" :label="$t('home.filters.endingMonth')" showLabel type="month"
+              :disableDate="disablePastDates" />
           </div>
         </div>
         <div v-if="shouldLoadPage" class="table-div" @scroll="handleTableScroll">
@@ -221,7 +224,16 @@ export default {
       this.resetTransactionOptions()
     },
     handleEndingDateChange(date) {
-      this.endingDate = new Date(date.getFullYear(), date.getMonth()+1, 0);
+      if (!date) {
+        this.endingDate = null
+        this.resetTransactionOptions()
+        return
+      }
+      this.endingDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+      this.resetTransactionOptions()
+    },
+    handleClearEndingDate() {
+      this.endingDate = null
       this.resetTransactionOptions()
     },
     disablePastDates(date) {
