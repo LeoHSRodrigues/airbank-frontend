@@ -4,7 +4,7 @@
             <AirbankLogo @click="handleLogoClick" />
         </div>
         <div class="flex navbar-language-select">
-            <FormSelect :options="availableLocales" @change="handleLanguageChange" :selected="selectedLanguage" />
+            <FormSelect uniqueId="i18n" :options="availableLocales" @change="handleLanguageChange" :selected="selectedLanguage" />
         </div>
     </div>
 </template>

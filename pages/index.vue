@@ -221,7 +221,7 @@ export default {
       this.resetTransactionOptions()
     },
     handleEndingDateChange(date) {
-      this.endingDate = date
+      this.endingDate = new Date(date.getFullYear(), date.getMonth()+1, 0);
       this.resetTransactionOptions()
     },
     disablePastDates(date) {
